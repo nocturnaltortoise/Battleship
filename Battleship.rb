@@ -34,6 +34,12 @@ def get_input(user_input)
 
 end
 
+def add_ships
+end
+
+def is_ship?
+end
+
 def update(coords, grid_array)
 
 	grid_array[coords[1].to_i][coords[0].to_i - 1] = "x"
