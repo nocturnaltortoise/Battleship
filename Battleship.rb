@@ -34,9 +34,15 @@ def get_input(user_input)
 
 end
 
+def update(coords, grid_array)
+
+	grid_array[coords[1].to_i][coords[0].to_i - 1] = "x"
+
+end
+
 puts "Choose your target coordinates (e.g. 2 3)"
 input = gets.chomp
 
-get_input(input)
+update(get_input(input),grid_array)
 
 render_grid(grid_array)
