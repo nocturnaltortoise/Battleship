@@ -55,10 +55,6 @@ class Board
 			puts
 		end
 	end
-
-	def assign_ship_name
-
-	end
 	
 	def add_ships
 		

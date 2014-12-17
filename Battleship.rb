@@ -52,16 +52,10 @@ class Battleship
 	
 	all_ships_sunk = false
 
-
-	until all_ships_sunk || tries > 81
+	until all_ships_sunk || tries >= 81
 
 		all_ships_sunk = (board.get_ships[0].is_sunk?) && (board.get_ships[1].is_sunk?) && (board.get_ships[2].is_sunk?) && (board.get_ships[3].is_sunk?) && (board.get_ships[4].is_sunk?)
-		puts board.get_ships[0].is_sunk?
-		puts board.get_ships[1].is_sunk?
-		puts board.get_ships[2].is_sunk?
-		puts board.get_ships[3].is_sunk?
-		puts board.get_ships[4].is_sunk?
-		puts all_ships_sunk
+
 		board.render
 		
 		x,y = battleship.get_input
