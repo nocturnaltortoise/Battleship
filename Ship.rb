@@ -3,6 +3,7 @@ class Ship
 	def initialize(length, name, is_sunk)
 		@length = length
 		@name = name
+    #maps the name of the ship to a more user-friendly version
 		@format = {
 			carrier: "Carrier",
 			cruiser: "Cruiser",
@@ -13,6 +14,7 @@ class Ship
 		@is_sunk = is_sunk
 	end
 
+  #sets the is_sunk flag
 	def sink(is_sunk)
 		@is_sunk = is_sunk
 	end
@@ -21,8 +23,8 @@ class Ship
 		@is_sunk
 	end
 
-	def format_name(key)
-		@format[key]
+	def format_name(ship_name)
+		@format[ship_name]
 	end
 
 	def get_length
