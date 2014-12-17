@@ -33,13 +33,13 @@ class Board
 			row.each_with_index do |col, col_count| 
 
 				if(col_count == 0 && row_count == 0)
-					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, "   ")
+					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, "   ", false)
 				elsif(col_count == 0)
-					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, " #{row_count} ")
+					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, " #{row_count} ", false)
 				elsif(row_count == 0)
-					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, " #{col_count} ")
+					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, " #{col_count} ", false)
 				else
-					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, " ? ".colorize(:background => :green))
+					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, " ? ".colorize(:background => :green), false)
 				end
 
 			end
@@ -84,23 +84,11 @@ class Board
 
 					if direction == 1
 						
-						if @squares[start_x + ship_square][start_y].get_contents.is_a? Ship
-							next	
-						end
-
-						if @squares[start_x - ship_square][start_y].get_contents.is_a? Ship
-							next
-						end
+						next if @squares[start_x + ship_square][start_y].get_contents.is_a? Ship
 
 					else
 
-						if @squares[start_x][start_y + ship_square].get_contents.is_a? Ship
-							next
-						end
-
-						if @squares[start_x][start_y - ship_square].get_contents.is_a? Ship
-							next
-						end
+						next if @squares[start_x][start_y + ship_square].get_contents.is_a? Ship
 
 					end
 

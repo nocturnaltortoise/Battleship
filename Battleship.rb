@@ -18,7 +18,8 @@ class Battleship
 	def fire_shot(x,y,board,hit_count)
 		#this works for displaying output, but a shot fired needs to hit a ship, not *just* display a truth value
 		board.get_squares[x][y].set_displayed_contents(board.get_format(board.get_squares[x][y].get_contents))
-		
+		board.get_squares[x][y].set_revealed(true)
+	
 		if board.get_squares[x][y].get_contents.is_a? Ship
 			ship = board.get_squares[x][y].get_contents
 			ship_name = ship.get_name
@@ -43,12 +44,13 @@ class Battleship
 		return x,y
 	end
 
-	def is_valid_input?(x, y)
-		(x <= 9 && x >= 1) && (y <= 9 && y >= 1)
+	def is_valid_input?(x, y, board)
+		return (x <= 9 && x >= 1) && (y <= 9 && y >= 1) && (!board.get_squares[y][x].is_revealed?)
 	end
 
 	board.make_board
 	board.add_ships
+	
 	
 	all_ships_sunk = false
 
@@ -60,10 +62,7 @@ class Battleship
 		
 		x,y = battleship.get_input
 		
-		# puts target_coords[0].is_a?(Integer)
-		# puts target_coords[1].is_a?(Integer)
-		
-		until battleship.is_valid_input?(x,y)
+		until battleship.is_valid_input?(x,y,board)
 			puts "Enter a valid input (x,y)"
 			x,y = battleship.get_input
 		end
