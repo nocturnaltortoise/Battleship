@@ -16,7 +16,7 @@ class Board
 	end
 
 	def get_format(key)
-		@format[key]
+		@format[key.is_a? Ship]
 	end
 
 	def get_squares
@@ -49,80 +49,84 @@ class Board
 			puts
 		end
 	end
-
-	# def valid_layout?(x,y,ship_length,direction,count)
-	# 	if x + ship_length > 9 || x - ship_length < 1
-	# 		return false
-	# 	end
-
-	# 	if y + ship_length > 9 || y - ship_length < 1
-	# 		return false
-	# 	end
-
-	# 	if @squares[x][y.get_contents
-
-
-
-
-
-	# end
 	
 	def add_ships
-
-		@ships.each do |ship|
+		
+		@ships.each_with_index do |ship, ship_number|
 			
-			count = 1
-			while count < ship.get_length
+			ship_fits = false
+			until ship_fits
 
 				start_x = rand(1..9)
-				start_y = rand(1..9)
+				start_y = rand(1..9) 
 				direction = rand(0..1)
 
 				if start_x + ship.get_length > 9
-					start_x = start_x - ship.get_length
+					next
 				end
 
 				if start_y + ship.get_length > 9
-					start_y = start_y - ship.get_length
-				end
-
-				if @squares[start_x][start_y].get_contents
-					next
-				else
-					@squares[start_x][start_y].set_contents(true)
-				end
-
-				if start_x + count > 9 || start_x - count < 1
 					next
 				end
 
-				if start_y + count > 9 || start_y - count - ship.get_length < 1
+				if @squares[start_x][start_y].get_contents.is_a? Ship
 					next
 				end
+				
+				(0..ship.get_length).each do |ship_square|
 
-				if direction == 0
-					
-					if @squares[start_x][start_y+count].get_contents
-						next
+					puts ship_square
+					if direction == 1
+						
+						if @squares[start_x + ship_square][start_y].get_contents.is_a? Ship
+							next	
+						end
+
 					else
-						@squares[start_x][start_y+count].set_contents(true)
+
+						if @squares[start_x][start_y + ship_square].get_contents.is_a? Ship
+							next
+						end
+						
 					end
+				end
 
-				elsif direction == 1
-
-					if @squares[start_x+count][start_y].get_contents
-						next
-					else
-						@squares[start_x+count][start_y].set_contents(true)
-					end
-
-				end	
-				count += 1
+				ship_fits = true
 			end
 
+			(0..ship.get_length - 1).each do |ship_square|
+				if direction == 1
+					@squares[start_x + ship_square][start_y].set_contents(ship)
+					if ship_number == 0
+						@squares[start_x + ship_square][start_y].get_contents.set_name("carrier")
+					elsif ship_number == 1
+						@squares[start_x + ship_square][start_y].get_contents.set_name("cruiser")
+					elsif ship_number == 2
+						@squares[start_x + ship_square][start_y].get_contents.set_name("destroyer_one")
+					elsif ship_number == 3
+						@squares[start_x + ship_square][start_y].get_contents.set_name("destroyer_two")
+					else
+						@squares[start_x + ship_square][start_y].get_contents.set_name("submarine")
+					end
+				else
+					@squares[start_x][start_y + ship_square].set_contents(ship)
+					if ship_number == 0
+						@squares[start_x][start_y + ship_square].get_contents.set_name("carrier")
+					elsif ship_number == 1
+						@squares[start_x][start_y + ship_square].get_contents.set_name("cruiser")
+					elsif ship_number == 2
+						@squares[start_x][start_y + ship_square].get_contents.set_name("destroyer_one")
+					elsif ship_number == 3
+						@squares[start_x][start_y + ship_square].get_contents.set_name("destroyer_two")
+					else
+						@squares[start_x][start_y + ship_square].get_contents.set_name("submarine")
+					end
+				end
+			end
+			
 		end
 
-
+		
 	end
 
 

@@ -7,9 +7,35 @@ class Battleship
 	battleship = Battleship.new
 	tries = 0
 
-	def fire_shot(x,y,board)
+	def initialize
+		
+	end
+
+	hit_count = { 
+		carrier: 0,
+		cruiser: 0,
+		destroyer_one: 0,
+		destroyer_two: 0,
+		submarine: 0
+	}
+
+
+
+	def fire_shot(x,y,board,hit_count)
 		#this works for displaying output, but a shot fired needs to hit a ship, not *just* display a truth value
-		board.get_squares[x][y].set_displayed_contents(board.get_format(board.get_squares[y][x].get_contents))
+		board.get_squares[x][y].set_displayed_contents(board.get_format(board.get_squares[x][y].get_contents))
+		puts board.get_squares[x][y].get_contents
+		
+		if board.get_squares[x][y].get_contents.is_a? Ship
+			ship_name = board.get_squares[x][y].get_contents.get_name
+			hit_count[ship_name.to_sym] += 1
+			
+			if hit_count[ship_name.to_sym] >= board.get_squares[x][y].get_contents.get_length
+				formatted_ship_name = board.get_squares[x][y].get_contents.format_name(ship_name.to_sym)
+				puts "You sunk a #{formatted_ship_name}!"
+			end
+
+		end
 
 	end
 	
@@ -42,7 +68,7 @@ class Battleship
 			x,y = battleship.get_input
 		end
 			
-		battleship.fire_shot(y, x, board)
+		battleship.fire_shot(y, x, board, hit_count)
 		tries += 1
 		puts "Score: #{tries}"
 		
