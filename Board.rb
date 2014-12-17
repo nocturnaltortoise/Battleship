@@ -8,7 +8,7 @@ class Board
 		@WIDTH = width
 		@HEIGHT = height
 		@squares = Array.new(@WIDTH) { Array.new(@HEIGHT) }
-		@ships = [Ship.new(5,"carrier"), Ship.new(4,"cruiser"), Ship.new(3,"destroyer_one"), Ship.new(3,"destroyer_two"), Ship.new(2,"submarine")]
+		@ships = [Ship.new(5,"carrier",false), Ship.new(4,"cruiser",false), Ship.new(3,"destroyer_one",false), Ship.new(3,"destroyer_two",false), Ship.new(2,"submarine",false)]
 		@format = {
 			true => " S ".colorize(:background => :red),
 			false => " W ".colorize(:background => :blue)
@@ -23,10 +23,15 @@ class Board
 		@squares
 	end
 
+	def get_ships
+		@ships
+	end
+
 	def make_board
 
 		@squares.each_with_index do |row, row_count| 
 			row.each_with_index do |col, col_count| 
+
 				if(col_count == 0 && row_count == 0)
 					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, "   ")
 				elsif(col_count == 0)
@@ -36,6 +41,7 @@ class Board
 				else
 					@squares[row_count][col_count] = Board_Square.new(row_count, col_count, false, " ? ".colorize(:background => :green))
 				end
+
 			end
 		end
 
@@ -48,6 +54,10 @@ class Board
 			end
 			puts
 		end
+	end
+
+	def assign_ship_name
+
 	end
 	
 	def add_ships
@@ -69,17 +79,21 @@ class Board
 					next
 				end
 
+				puts @squares[start_x][start_y].get_contents.is_a? Ship
 				if @squares[start_x][start_y].get_contents.is_a? Ship
 					next
 				end
 				
-				(0..ship.get_length).each do |ship_square|
+				(0...ship.get_length).each do |ship_square|
 
-					puts ship_square
 					if direction == 1
 						
 						if @squares[start_x + ship_square][start_y].get_contents.is_a? Ship
 							next	
+						end
+
+						if @squares[start_x - ship_square][start_y].get_contents.is_a? Ship
+							next
 						end
 
 					else
@@ -87,16 +101,23 @@ class Board
 						if @squares[start_x][start_y + ship_square].get_contents.is_a? Ship
 							next
 						end
-						
+
+						if @squares[start_x][start_y - ship_square].get_contents.is_a? Ship
+							next
+						end
+
 					end
+
 				end
 
 				ship_fits = true
 			end
 
-			(0..ship.get_length - 1).each do |ship_square|
+			(0...ship.get_length).each do |ship_square|
+
 				if direction == 1
 					@squares[start_x + ship_square][start_y].set_contents(ship)
+
 					if ship_number == 0
 						@squares[start_x + ship_square][start_y].get_contents.set_name("carrier")
 					elsif ship_number == 1
@@ -109,7 +130,9 @@ class Board
 						@squares[start_x + ship_square][start_y].get_contents.set_name("submarine")
 					end
 				else
+					
 					@squares[start_x][start_y + ship_square].set_contents(ship)
+
 					if ship_number == 0
 						@squares[start_x][start_y + ship_square].get_contents.set_name("carrier")
 					elsif ship_number == 1
@@ -122,6 +145,7 @@ class Board
 						@squares[start_x][start_y + ship_square].get_contents.set_name("submarine")
 					end
 				end
+
 			end
 			
 		end

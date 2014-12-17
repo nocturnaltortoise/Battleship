@@ -7,10 +7,6 @@ class Battleship
 	battleship = Battleship.new
 	tries = 0
 
-	def initialize
-		
-	end
-
 	hit_count = { 
 		carrier: 0,
 		cruiser: 0,
@@ -19,20 +15,19 @@ class Battleship
 		submarine: 0
 	}
 
-
-
 	def fire_shot(x,y,board,hit_count)
 		#this works for displaying output, but a shot fired needs to hit a ship, not *just* display a truth value
 		board.get_squares[x][y].set_displayed_contents(board.get_format(board.get_squares[x][y].get_contents))
-		puts board.get_squares[x][y].get_contents
 		
 		if board.get_squares[x][y].get_contents.is_a? Ship
-			ship_name = board.get_squares[x][y].get_contents.get_name
+			ship = board.get_squares[x][y].get_contents
+			ship_name = ship.get_name
 			hit_count[ship_name.to_sym] += 1
 			
-			if hit_count[ship_name.to_sym] >= board.get_squares[x][y].get_contents.get_length
-				formatted_ship_name = board.get_squares[x][y].get_contents.format_name(ship_name.to_sym)
+			if hit_count[ship_name.to_sym] >= ship.get_length
+				formatted_ship_name = ship.format_name(ship_name.to_sym)
 				puts "You sunk a #{formatted_ship_name}!"
+				ship.sink(true)
 			end
 
 		end
@@ -55,7 +50,18 @@ class Battleship
 	board.make_board
 	board.add_ships
 	
-	while true
+	all_ships_sunk = false
+
+
+	until all_ships_sunk || tries > 81
+
+		all_ships_sunk = (board.get_ships[0].is_sunk?) && (board.get_ships[1].is_sunk?) && (board.get_ships[2].is_sunk?) && (board.get_ships[3].is_sunk?) && (board.get_ships[4].is_sunk?)
+		puts board.get_ships[0].is_sunk?
+		puts board.get_ships[1].is_sunk?
+		puts board.get_ships[2].is_sunk?
+		puts board.get_ships[3].is_sunk?
+		puts board.get_ships[4].is_sunk?
+		puts all_ships_sunk
 		board.render
 		
 		x,y = battleship.get_input
@@ -70,11 +76,9 @@ class Battleship
 			
 		battleship.fire_shot(y, x, board, hit_count)
 		tries += 1
-		puts "Score: #{tries}"
-		
-			
-	
 	end
+
+	puts "Score: #{tries}"
 
 
 end

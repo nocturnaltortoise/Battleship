@@ -2,7 +2,7 @@
 
 class Ship
 
-	def initialize(length, name)
+	def initialize(length, name, is_sunk)
 		@length = length
 		@name = name
 		@format = {
@@ -12,6 +12,15 @@ class Ship
 			destroyer_two: "Destroyer",
 			submarine: "Submarine"
 		}
+		@is_sunk = is_sunk
+	end
+
+	def sink(is_sunk)
+		@is_sunk = is_sunk
+	end
+
+	def is_sunk?
+		@is_sunk
 	end
 
 	def format_name(key)
