@@ -27,8 +27,4 @@ class Board_Square
 		@contents = contents
 	end
 
-	def is_ship?
-		
-	end
-
 end

@@ -38,6 +38,7 @@ class Board
 				end
 			end
 		end
+
 	end
 
 	def render
@@ -48,82 +49,73 @@ class Board
 			puts
 		end
 	end
+
+	# def valid_layout?(x,y,ship_length,direction,count)
+	# 	if x + ship_length > 9 || x - ship_length < 1
+	# 		return false
+	# 	end
+
+	# 	if y + ship_length > 9 || y - ship_length < 1
+	# 		return false
+	# 	end
+
+	# 	if @squares[x][y.get_contents
+
+
+
+
+
+	# end
 	
 	def add_ships
 
 		@ships.each do |ship|
-
-			start_x = rand(1..9)
-			start_y = rand(1..9)
-			direction = rand(0..3)
-
-
-			if start_x + ship.get_length > 9
-				start_x = start_x - ship.get_length
-			elsif start_x - ship.get_length < 1
-				start_x = start_x + ship.get_length
-			end
-
-			if start_y + ship.get_length > 9
-				start_y = start_y - ship.get_length
-			elsif start_y - ship.get_length < 1
-				start_y = start_y + ship.get_length
-			end
-				
-			# until start_x + ship.get_length < 9 && start_x + ship.get_length > 1
-			# 	puts "failed to position ships"
-			# end
-
-			# until start_y + ship.get_length < 9 && start_y + ship.get_length > 1
-			# 	puts "failed to position ships"
-			# end
-
+			
 			count = 1
-
-			# while start_x + ship.get_length > @WIDTH || start_x - ship.get_length < 1 || start_y + ship.get_length > @HEIGHT || start_y - ship.get_length < 1
-				
-			# end
-
-			@squares[start_x][start_y].set_contents(true)
-
 			while count < ship.get_length
 
+				start_x = rand(1..9)
+				start_y = rand(1..9)
+				direction = rand(0..1)
+
+				if start_x + ship.get_length > 9
+					start_x = start_x - ship.get_length
+				end
+
+				if start_y + ship.get_length > 9
+					start_y = start_y - ship.get_length
+				end
+
+				if @squares[start_x][start_y].get_contents
+					next
+				else
+					@squares[start_x][start_y].set_contents(true)
+				end
+
 				if start_x + count > 9 || start_x - count < 1
-					break
+					next
 				end
 
 				if start_y + count > 9 || start_y - count - ship.get_length < 1
-					break
+					next
 				end
 
 				if direction == 0
 					
 					if @squares[start_x][start_y+count].get_contents
-						add_ships
+						next
 					else
 						@squares[start_x][start_y+count].set_contents(true)
 					end
+
 				elsif direction == 1
 
 					if @squares[start_x+count][start_y].get_contents
-						add_ships
+						next
 					else
 						@squares[start_x+count][start_y].set_contents(true)
 					end
-				elsif direction == 2
 
-					if @squares[start_x][start_y-count].get_contents
-						add_ships
-					else
-						@squares[start_x][start_y-count].set_contents(true)
-					end
-				elsif direction == 3
-
-					if @squares[start_x-count][start_y].get_contents
-						add_ships
-					else
-						@squares[start_x-count][start_y].set_contents(true)
-					end
 				end	
 				count += 1
 			end
