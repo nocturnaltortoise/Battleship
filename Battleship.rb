@@ -1,43 +1,31 @@
-require "colorize"
-require "./Ship"
 require "./Board"
+require "./Board_Square"
 
 class Battleship
 
-	battleships = Battleship.new
+	board = Board.new(10,10)
+	battleship = Battleship.new
+	hit_count = 0
 
-	board = Board.new(11,11)
-	board.populate
+	def fire_shot(x,y,board)
+		#this works for displaying output, but a shot fired needs to hit a ship, not *just* display a truth value
+		board.get_squares[y][x].set_displayed_contents(board.get_format(board.get_squares[y][x].get_contents))
+
+	end
 	
-	def update(board)
-		if get_input[0..2] == "2,3"
-			board.set_board_cell(2,3,true)
-		else
-			board.set_board_cell(2,3,false)
-		end
-	end
-
 	def get_input
-		puts "Enter a target cell: "
-		user_target = gets.chomp
-		user_target.split(",")
-		return user_target
+		puts "Enter target coordinates in the form x,y (e.g. 2,3): "
+		target_coords = gets.chomp
 	end
-
-	def render(board)
-		board.grid_array.each do |row|
-			row.each do |col|
-				print "#{col} "
-			end
-			puts
-		end
-	end
-
+	
+	board.make_board
+	board.add_ships
 
 	while true
-		
-		battleships.render(board)
-		battleships.update(board)
+		board.render
+		target_coords = battleship.get_input.split(",")
+		battleship.fire_shot((target_coords.first).to_i, (target_coords.last).to_i, board)
 	end
+
 
 end
