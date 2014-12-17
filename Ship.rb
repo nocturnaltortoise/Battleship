@@ -1,5 +1,3 @@
-#make ships arrays of coordinates? 
-
 class Ship
 
 	def initialize(length, name, is_sunk)
