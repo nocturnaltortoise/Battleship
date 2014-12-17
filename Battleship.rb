@@ -6,7 +6,6 @@ class Battleship
 	board = Board.new(10,10)
 	battleship = Battleship.new
 	tries = 0
-
 	hit_count = { 
 		carrier: 0,
 		cruiser: 0,
@@ -14,6 +13,12 @@ class Battleship
 		destroyer_two: 0,
 		submarine: 0
 	}
+	all_ships_sunk = false
+
+	board.make_board
+	board.add_ships
+
+
 
 	def fire_shot(x,y,board,hit_count)
 		#this works for displaying output, but a shot fired needs to hit a ship, not *just* display a truth value
@@ -30,7 +35,6 @@ class Battleship
 				puts "You sunk a #{formatted_ship_name}!"
 				ship.sink(true)
 			end
-
 		end
 
 	end
@@ -47,12 +51,6 @@ class Battleship
 	def is_valid_input?(x, y, board)
 		return (x <= 9 && x >= 1) && (y <= 9 && y >= 1) && (!board.get_squares[y][x].is_revealed?)
 	end
-
-	board.make_board
-	board.add_ships
-	
-	
-	all_ships_sunk = false
 
 	until all_ships_sunk || tries >= 81
 
